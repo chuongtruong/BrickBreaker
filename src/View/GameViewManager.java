@@ -13,7 +13,7 @@ public class GameViewManager {
     private BorderPane gamePane;
     private Scene gameScene;
     private Stage gameStage;
-    private GridPane gameInfo = new GridPane();
+    private final GridPane gameInfo = new GridPane();
 
     private static final int PREF_WIDTH = 480;
     private static final int PREF_HEIGHT = 600;
@@ -21,7 +21,7 @@ public class GameViewManager {
     private Stage menuStage;
     private String colorID;
 
-    public GameViewManager(){
+    public GameViewManager() {
         initializeStage();
         createKeyListener();
     }
@@ -32,9 +32,9 @@ public class GameViewManager {
         gameScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode() == KeyCode.D){
+                if (keyEvent.getCode() == KeyCode.D) {
 
-                } else if (keyEvent.getCode() == KeyCode.A){
+                } else if (keyEvent.getCode() == KeyCode.A) {
 
                 }
 
@@ -56,16 +56,16 @@ public class GameViewManager {
         gameStage.setScene(gameScene);
     }
 
-    public void createNewGame(Stage menuStage, String selectedColor, String playerName){
+    public void createNewGame(Stage menuStage, String selectedColor, String playerName) {
         this.menuStage = menuStage;
         this.menuStage.hide();
-        setText(selectedColor,playerName);
+        setText(selectedColor, playerName);
         gameStage.show();
     }
 
-    private void setText(String color, String name){
-        Label ballColor = new Label ("Ball color:  " + color);
-        Label playerName = new Label ("Player's name: " + name);
+    private void setText(String color, String name) {
+        Label ballColor = new Label("Ball color:  " + color);
+        Label playerName = new Label("Player's name: " + name);
 
         Label message = new Label("Main game goes here.");
 
