@@ -1,7 +1,12 @@
+package application;
+
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -9,12 +14,15 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import View.GameViewManager;
 
-import java.awt.*;
+public class Main extends Application {
 
-public class MainMenu extends Application {
-
+    //Variables
     Stage window;
+    String selectedColorTxt;
+    String playerNameTxt;
+
 
     public static void main(String[] args) {
         launch(args);
@@ -24,6 +32,10 @@ public class MainMenu extends Application {
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         window.setTitle("Main Menu");
+
+
+        //Scene
+        GameViewManager gameView = new GameViewManager();
 
         //Layout
         BorderPane root = new BorderPane();
@@ -70,7 +82,52 @@ public class MainMenu extends Application {
 
 
         //Nodes' controller
-        //play_btn.setOnAction(e->window.setScene());
+        color1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectedColorTxt = "red";
+            }
+        });
+
+        color2.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectedColorTxt = "green";
+            }
+        });
+
+        color3.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectedColorTxt = "blue";
+            }
+        });
+
+        close_btn.setOnAction(e -> window.close()); //close application
+
+        play_btn.setOnAction(e -> {
+                    playerNameTxt = playerName.getText();
+                    if(selectedColorTxt == null){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Please select color");
+                        alert.showAndWait();
+
+                    } else if (playerNameTxt == null){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Dialog");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Please type player's name");
+                        alert.showAndWait();
+                    } else {
+                        gameView.createNewGame(window,selectedColorTxt,playerNameTxt);
+                    }
+                }
+        );
+
+        //Functions
+
 
         // Add buttons to holder
         navigationArea.getChildren().add(play_btn);
@@ -87,9 +144,9 @@ public class MainMenu extends Application {
 
         //Menu content
         menuContent.getChildren().addAll(playerNameLbl, playerName, selectColor, ballOptions);
-        ballOptions.add(color1, 0,1);
-        ballOptions.add(color2, 1,1);
-        ballOptions.add(color3, 2,1);
+        ballOptions.add(color1, 0, 1);
+        ballOptions.add(color2, 1, 1);
+        ballOptions.add(color3, 2, 1);
 
         root.setCenter(menuContent);
         root.setBottom(navigationArea);
